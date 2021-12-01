@@ -1,0 +1,17 @@
+# Project #
+
+# Maven #
+target/
+DT.log
+EP.log
+
+# Eclipse #
+.project
+.classpath
+.settings
+
+# IntelliJ IDEA #
+.idea/
+*.iml
+overlays/
+atlassian-ide-plugin.xml
