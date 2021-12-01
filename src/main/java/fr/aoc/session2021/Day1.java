@@ -27,7 +27,8 @@ public class Day1 {
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String inputStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            measurement = Arrays.stream(inputStr.split("(\\r\\n|\\r|\\n)"))
+            measurement = Arrays.stream(inputStr.split("\\D"))
+                    .filter(element -> element != null && !element.isEmpty() && !element.trim().isEmpty())
                     .map(Integer::parseInt)
                     .toList();
         } catch (IOException e) {
