@@ -42,43 +42,43 @@ public class Day2 {
     }
 
     private Map<String, Integer> computeDirections(List<String> directions) {
-        Map<String, Integer> results = new HashMap<>(2);
-        results.put("horizontal", 0);
-        results.put("depth", 0);
+        int horizontal = 0;
+        int depth = 0;
 
         for(String direction : directions) {
             String[] data = direction.split("\\s");
+            int directionInt = Integer.parseInt(data[1]);
             if ("forward".equalsIgnoreCase(data[0])) {
-                results.put("horizontal", results.get("horizontal") + Integer.parseInt(data[1]));
+                horizontal += directionInt;
             } else if ("up".equalsIgnoreCase(data[0])) {
-                results.put("depth", results.get("depth") - Integer.parseInt(data[1]));
+                depth -= directionInt;
             } else if ("down".equalsIgnoreCase(data[0])) {
-                results.put("depth", results.get("depth") + Integer.parseInt(data[1]));
+                depth += directionInt;
             }
         }
 
-        return results;
+        return Map.of("horizontal", horizontal, "depth", depth);
     }
 
     private Map<String, Integer> computeDirectionsPart2(List<String> directions) {
-        Map<String, Integer> results = new HashMap<>(3);
-        results.put("horizontal", 0);
-        results.put("depth", 0);
-        results.put("aim", 0);
+        int horizontal = 0;
+        int depth = 0;
+        int aim = 0;
 
         for(String direction : directions) {
             String[] data = direction.split("\\s");
+            int directionInt = Integer.parseInt(data[1]);
             if ("forward".equalsIgnoreCase(data[0])) {
-                results.put("horizontal", results.get("horizontal") + Integer.parseInt(data[1]));
-                results.put("depth", results.get("depth") + results.get("aim") * Integer.parseInt(data[1]));
+                horizontal += directionInt;
+                depth += aim * directionInt;
             } else if ("up".equalsIgnoreCase(data[0])) {
-                results.put("aim", results.get("aim") - Integer.parseInt(data[1]));
+                aim -= directionInt;
             } else if ("down".equalsIgnoreCase(data[0])) {
-                results.put("aim", results.get("aim") + Integer.parseInt(data[1]));
+                aim += directionInt;
             }
         }
 
-        return results;
+        return Map.of("horizontal", horizontal, "depth", depth, "aim", aim);
     }
 
 }
