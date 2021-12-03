@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Day3 {
 
@@ -16,12 +17,17 @@ public class Day3 {
         Day3 day3 = new Day3();
         List<List<Integer>> diagnostics = day3.readInput("src/main/resources/2021/day3/input.txt");
         String mostCommonBits = day3.calcMostCommonBits(diagnostics);
-        Map<String, Integer> rates = day3.calcRates(mostCommonBits);
+        Map<String, Integer> gAndERates = day3.calcGAndERates(mostCommonBits);
 
         // Partie 1
         System.out.println(mostCommonBits);
-        System.out.println(rates);
-        System.out.println(rates.get("gammaRate") * rates.get("epsilonRate"));
+        System.out.println(gAndERates);
+        System.out.println(gAndERates.get("gammaRate") * gAndERates.get("epsilonRate"));
+
+        // Partie 2
+        Map<String, Integer> oAndCO2Rates = day3.filterBitCriteria(diagnostics);
+        System.out.println(oAndCO2Rates);
+        System.out.println(oAndCO2Rates.get("oxygenRate") * oAndCO2Rates.get("co2Rate"));
     }
 
     private List<List<Integer>> readInput(String filePath) {
@@ -53,18 +59,60 @@ public class Day3 {
 
         return result.toString();
     }
+    
+    private Map<String, Integer> filterBitCriteria(List<List<Integer>> diagnostic) {
+        List<List<Integer>> oxygenFilter = diagnostic;
+        List<List<Integer>> co2Filter = diagnostic;
+        
+        for (int index = 0; index < diagnostic.get(0).size(); index++) {
+            int finalIndex = index;
+
+            if (oxygenFilter.size() > 1) {
+                int oxygenMostCommonBit = Integer.parseInt(calcMostCommonBitForPos(oxygenFilter, index));
+                oxygenFilter = oxygenFilter.stream()
+                        .filter(element -> element.get(finalIndex) == oxygenMostCommonBit)
+                        .toList();
+            }
+
+            if (co2Filter.size() > 1) {
+                int co2MostCommonBit = Integer.parseInt(calcMostCommonBitForPos(co2Filter, index));
+                co2Filter = co2Filter.stream()
+                        .filter(element -> element.get(finalIndex) == 1 - co2MostCommonBit)
+                        .toList();
+            }
+        }
+
+        int oxygenRate = Integer.parseInt(
+                            oxygenFilter.get(0).stream()
+                                .map(String::valueOf)
+                                .collect(Collectors.joining()),
+                            2
+        );
+        int co2Rate = Integer.parseInt(
+                            co2Filter.get(0).stream()
+                                .map(String::valueOf)
+                                .collect(Collectors.joining()),
+                            2
+        );
+
+        System.out.println(oxygenFilter);
+        System.out.println(co2Filter);
+        
+        return Map.of("oxygenRate", oxygenRate, "co2Rate", co2Rate);
+    }
 
     private String calcMostCommonBitForPos(List<List<Integer>> diagnostic, int position) {
         int numberOfOnes = 0;
+        int threshold = diagnostic.size() % 2 == 0 ? diagnostic.size() / 2 : diagnostic.size() / 2 + 1;
 
         for (List<Integer> diagnosticLine : diagnostic) {
-            if (diagnosticLine.get(position) == 0) numberOfOnes++;
+            if (diagnosticLine.get(position) == 1) numberOfOnes++;
         }
 
-        return numberOfOnes > diagnostic.size() / 2 ? "1" : "0";
+        return numberOfOnes >= threshold ? "1" : "0";
     }
 
-    private Map<String, Integer> calcRates(String mostCommonBits) {
+    private Map<String, Integer> calcGAndERates(String mostCommonBits) {
         String leastCommonBits = mostCommonBits.replace("1", "x")
                                     .replace("0", "1")
                                     .replace("x", "0");
