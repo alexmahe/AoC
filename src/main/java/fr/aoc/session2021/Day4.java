@@ -24,6 +24,8 @@ public class Day4 {
         // GIVEN
         Day4 day4 = new Day4();
         day4.readInput("src/main/resources/2021/day4/input.txt");
+
+        // DO
         day4.readDrawnNumber();
     }
 
@@ -73,19 +75,9 @@ public class Day4 {
     }
 
     private void checkIfMarked(int drawnNumber) {
-        for (int boardNumber = 0; boardNumber < boards.size(); boardNumber++) {
-            ArrayList<ArrayList<Integer>> board = boards.get(boardNumber);
-
-            for (int boardLineNumber = 0; boardLineNumber < board.size(); boardLineNumber++) {
-                ArrayList<Integer> boardLine = board.get(boardLineNumber);
-
-                for (int boardColNumber = 0; boardColNumber < boardLine.size(); boardColNumber++) {
-                    if (boardLine.get(boardColNumber) == drawnNumber) {
-                        markedBoards.get(boardNumber).get(boardLineNumber).set(boardColNumber, true);
-                    }
-                }
-            }
-        }
+        boards.forEach(board -> board.forEach(boardLine -> boardLine.forEach(number -> {
+            if (number == drawnNumber) markedBoards.get(boards.indexOf(board)).get(board.indexOf(boardLine)).set(boardLine.indexOf(number), true);
+        })));
     }
 
     private boolean checkVictory(int drawnNumber) {
