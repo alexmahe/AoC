@@ -25,7 +25,7 @@ public class Day6 {
 
     private ArrayList<AtomicLong> readInput(String filePath) {
         ArrayList<AtomicLong> fishCycles = Stream.generate(AtomicLong::new).limit(9).collect(Collectors.toCollection(ArrayList::new));
-        ArrayList<Integer> intputArray = null;
+        ArrayList<Integer> intputArray;
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String inputStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
