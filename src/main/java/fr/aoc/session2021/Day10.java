@@ -8,10 +8,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class Day10 {
 
     private static final String OPENING_CHARS = "([{<";
+    private static final Map<String, String> MATCHING_CHARS = Map.of("(", ")", "[", "]", "{", "}", "<", ">");
+    private static final Map<String, Integer> SCORE_PART_1 = Map.of(")", 3, "]", 57, "}", 1197, ">", 25137);
+    private static final Map<String, Long> SCORE_PART_2 = Map.of(")", 1L, "]", 2L, "}", 3L, ">", 4L);
     private final ArrayList<String> illegalChars = new ArrayList<>();
     private final ArrayList<ArrayList<String>> incompleteLists = new ArrayList<>();
 
@@ -44,7 +48,7 @@ public class Day10 {
 
     private void buildCharsList(List<List<String>> inputLines) {
         inputLines.forEach(line -> {
-            ArrayList<String> charBuffer = new ArrayList<>();
+            ArrayList<String> symbolBuffer = new ArrayList<>();
             int symbolIndex = 0;
             boolean corrupted = false;
 
@@ -52,10 +56,10 @@ public class Day10 {
                 String symbol = line.get(symbolIndex);
 
                 if (OPENING_CHARS.contains(symbol)) {
-                    charBuffer.add(symbol);
+                    symbolBuffer.add(symbol);
                 } else {
-                    if (closingCharMatchOpening(charBuffer.get(charBuffer.size() - 1), symbol)) {
-                        charBuffer.remove(charBuffer.size() - 1);
+                    if (symbol.equals(MATCHING_CHARS.get(symbolBuffer.get(symbolBuffer.size() - 1)))) {
+                        symbolBuffer.remove(symbolBuffer.size() - 1);
                     } else {
                         corrupted = true;
                         illegalChars.add(symbol);
@@ -65,7 +69,7 @@ public class Day10 {
                 symbolIndex++;
             }
 
-            if (!corrupted) incompleteLists.add(new ArrayList<>(charBuffer));
+            if (!corrupted) incompleteLists.add(new ArrayList<>(symbolBuffer));
         });
     }
 
@@ -74,58 +78,22 @@ public class Day10 {
 
         incompleteLists.forEach(line -> {
             completingLists.add(new ArrayList<>());
-            line.forEach(symbol -> completingLists.get(completingLists.size() - 1).add(0, findMatchingClosingChar(symbol)));
+            line.forEach(symbol -> completingLists.get(completingLists.size() - 1).add(0, MATCHING_CHARS.get(symbol)));
         });
 
         return completingLists;
     }
 
     private int calcIllegalScore(ArrayList<String> illegalChars) {
-        return illegalChars.stream().map(symbol -> {
-            return switch (symbol) {
-                case ")" -> 3;
-                case "}" -> 1197;
-                case "]" -> 57;
-                case ">" -> 25137;
-                default -> 0;
-            };
-        }).reduce(0, Integer::sum);
+        return illegalChars.stream().map(SCORE_PART_1::get).reduce(0, Integer::sum);
     }
 
     private long calcIncompleteScore(ArrayList<ArrayList<String>> completingLists) {
         List<Long> scoreList = completingLists.stream().map(line -> {
-            return line.stream().map(symbol -> {
-                return switch (symbol) {
-                    case ")" -> 1L;
-                    case "}" -> 3L;
-                    case "]" -> 2L;
-                    case ">" -> 4L;
-                    default -> 0L;
-                };
-            }).reduce(0L, (a, b) -> (5 * a) + b);
+            return line.stream().map(SCORE_PART_2::get).reduce(0L, (a, b) -> (5 * a) + b);
         }).sorted().toList();
 
         return scoreList.get(scoreList.size() / 2);
     }
-
-    private boolean closingCharMatchOpening(String opening, String closing) {
-        return switch (closing) {
-            case ")" -> "(".equals(opening);
-            case "}" -> "{".equals(opening);
-            case "]" -> "[".equals(opening);
-            case ">" -> "<".equals(opening);
-            default -> throw new IllegalArgumentException("Unrecognized char");
-        };
-    }
-
-    private String findMatchingClosingChar(String opening) {
-        return switch (opening) {
-            case "(" -> ")";
-            case "{" -> "}";
-            case "[" -> "]";
-            case "<" -> ">";
-            default -> throw new IllegalArgumentException("Unrecognized char");
-        };
-    }
-
+    
 }
