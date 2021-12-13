@@ -116,9 +116,3 @@ public class Day13 {
         return array.stream().map(boardLine -> boardLine.stream().map(String::valueOf).collect(Collectors.joining(" "))).collect(Collectors.joining("\n"));
     }
 }
-
-// 4, 11 => 4, 3 avec fold y=7
-// ligne = 7 - (11 - 7) = 7 - 4 = 3
-
-// 9, 10 => 9, 4
-// 7 - (10 - 7) = 7 - 3 = 4
