@@ -23,7 +23,7 @@ public class Day15 {
 
     private static final Integer[][] neighbors = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
     private Node sourceNode;
-    private Map<String, Node> nodeMap = new HashMap<>();
+    private final Map<String, Node> nodeMap = new HashMap<>();
     private String endNodeName;
     private int origSize;
     private long replicateNumber;
@@ -37,24 +37,27 @@ public class Day15 {
     public void runDijkstra() {
         replicateNumber = 1;
         long startTime = System.currentTimeMillis();
-        calculateShortestPathFromSource(buildGraph(), sourceNode);
-        long timePart = System.currentTimeMillis() - startTime;
+        buildGraph();
+        long buildGraphTime = System.currentTimeMillis();
+        calculateShortestPathFromSource(sourceNode);
+        long dijkstraTime = System.currentTimeMillis();
         System.out.printf("Part 1 answer : %n%s%n", nodeMap.get(endNodeName).toString());
-        System.out.printf("Time to complete : %s%n", timePart);
+        System.out.printf("Time to complete graph %s, dijkstra %s%n%n", buildGraphTime - startTime, dijkstraTime - buildGraphTime);
 
         replicateNumber = 5;
         startTime = System.currentTimeMillis();
-        calculateShortestPathFromSource(buildGraph(), sourceNode);
-        timePart = System.currentTimeMillis() - startTime;
+        buildGraph();
+        buildGraphTime = System.currentTimeMillis();
+        calculateShortestPathFromSource(sourceNode);
+        dijkstraTime = System.currentTimeMillis();
         System.out.printf("Part 2 answer : %n%s%n", nodeMap.get(endNodeName).toString());
-        System.out.printf("Time to complete : %s%n", timePart);
+        System.out.printf("Time to complete graph %s, dijkstra %s%n%n", buildGraphTime - startTime, dijkstraTime - buildGraphTime);
     }
 
-    private Graph buildGraph() {
+    private void buildGraph() {
         ArrayList<ArrayList<Long>> nodesInput = readInput("src/main/resources/2021/day15/input.txt");
         Graph graph = new Graph();
         endNodeName = getNodeName(nodesInput.size() - 1, nodesInput.get(nodesInput.size() - 1).size() - 1);
-        System.out.printf("last node : %s%n", endNodeName);
 
         for (int lineIndex = 0; lineIndex < nodesInput.size(); lineIndex++) {
             for (int colIndex = 0; colIndex < nodesInput.get(lineIndex).size(); colIndex++) {
@@ -70,8 +73,7 @@ public class Day15 {
                         long neighborWeight = (nodesInput.get(line).get(column)) % 10;
                         neighborNode = getOrCreateNode(neighborName);
                         node.addDestination(neighborNode, neighborWeight);
-                    } catch (IndexOutOfBoundsException ignored) {
-                    }
+                    } catch (IndexOutOfBoundsException ignored) {}
                 }
 
                 if ("000000".equals(nodeName)) sourceNode = node;
@@ -79,12 +81,10 @@ public class Day15 {
                 graph.addNode(node);
             }
         }
-
-        return graph;
     }
 
     private ArrayList<ArrayList<Long>> readInput(String filePath) {
-        ArrayList<ArrayList<Long>> nodesInputOrig = null;
+        ArrayList<ArrayList<Long>> nodesInputOrig;
         ArrayList<ArrayList<Long>> nodesInput = new ArrayList<>();
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
@@ -115,15 +115,10 @@ public class Day15 {
     }
 
     private Node getOrCreateNode(String nodeName) {
-        if (!nodeMap.containsKey(nodeName)) {
-            Node node = new Node(nodeName);
-            nodeMap.put(nodeName, node);
-        }
-
-        return nodeMap.get(nodeName);
+        return nodeMap.computeIfAbsent(nodeName, Node::new);
     }
 
-    private static Graph calculateShortestPathFromSource(Graph graph, Node source) {
+    private void calculateShortestPathFromSource(Node source) {
         source.setDistance(0L);
 
         Set<Node> settledNodes = new HashSet<>();
@@ -146,11 +141,9 @@ public class Day15 {
 
             settledNodes.add(currentNode);
         }
-
-        return graph;
     }
 
-    private static Node getLowestDistanceNode(Set<Node> unsettledNodes) {
+    private Node getLowestDistanceNode(Set<Node> unsettledNodes) {
         Node lowestDistanceNode = null;
         long lowestDistance = Long.MAX_VALUE;
 
@@ -165,7 +158,7 @@ public class Day15 {
         return lowestDistanceNode;
     }
 
-    private static void calculateMinimumDistance(Node evaluationNode, Long edgeWeigh, Node sourceNode) {
+    private void calculateMinimumDistance(Node evaluationNode, Long edgeWeigh, Node sourceNode) {
         Long sourceDistance = sourceNode.getDistance();
 
         if (sourceDistance + edgeWeigh < evaluationNode.getDistance()) {
@@ -196,7 +189,7 @@ public class Day15 {
 
     @Getter
     @Setter
-    private class Graph {
+    private static class Graph {
         private Set<Node> nodes = new HashSet<>();
 
         public void addNode(Node node) {
@@ -206,7 +199,7 @@ public class Day15 {
 
     @Getter
     @Setter
-    private class Node {
+    private static class Node {
         Map<Node, Long> adjacentNodes = new HashMap<>();
         private String name;
         private List<Node> shortestPath = new LinkedList<>();
