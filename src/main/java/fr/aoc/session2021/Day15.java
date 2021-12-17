@@ -22,8 +22,8 @@ import java.util.stream.Stream;
 public class Day15 {
 
     private static final Integer[][] neighbors = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
-    private Node sourceNode;
     private final Map<String, Node> nodeMap = new HashMap<>();
+    private Node sourceNode;
     private String endNodeName;
     private int origSize;
     private long replicateNumber;
@@ -73,7 +73,8 @@ public class Day15 {
                         long neighborWeight = (nodesInput.get(line).get(column)) % 10;
                         neighborNode = getOrCreateNode(neighborName);
                         node.addDestination(neighborNode, neighborWeight);
-                    } catch (IndexOutOfBoundsException ignored) {}
+                    } catch (IndexOutOfBoundsException ignored) {
+                    }
                 }
 
                 if ("000000".equals(nodeName)) sourceNode = node;
