@@ -15,9 +15,6 @@ import java.util.stream.Collectors;
 
 public class Day16 {
 
-    private static final BigInteger BIGINT_0 = new BigInteger("0");
-    private static final BigInteger BIGINT_1 = new BigInteger("1");
-
     public static void main(String[] args) {
         Day16 day16 = new Day16();
         String binaryStr = day16.readInput("src/main/resources/2021/day16/input.txt");
@@ -146,15 +143,15 @@ public class Day16 {
 
         public BigInteger interpret() {
             return switch (this.type.intValue())  {
-                case 0 -> this.subpackets.stream().map(Packet::interpret).reduce(BIGINT_0, BigInteger::add);
-                case 1 -> this.subpackets.stream().map(Packet::interpret).reduce(BIGINT_1, BigInteger::multiply);
-                case 2 -> this.subpackets.stream().map(Packet::interpret).min(BigInteger::compareTo).orElse(BIGINT_0);
-                case 3 -> this.subpackets.stream().map(Packet::interpret).max(BigInteger::compareTo).orElse(BIGINT_0);
-                case 5 -> this.subpackets.get(0).interpret().compareTo(this.subpackets.get(1).interpret()) > 0 ? BIGINT_1 : BIGINT_0;
-                case 6 -> this.subpackets.get(0).interpret().compareTo(this.subpackets.get(1).interpret()) < 0 ? BIGINT_1 : BIGINT_0;
-                case 7 -> this.subpackets.get(0).interpret().compareTo(this.subpackets.get(1).interpret()) == 0 ? BIGINT_1 : BIGINT_0;
+                case 0 -> this.subpackets.stream().map(Packet::interpret).reduce(BigInteger.ZERO, BigInteger::add);
+                case 1 -> this.subpackets.stream().map(Packet::interpret).reduce(BigInteger.ONE, BigInteger::multiply);
+                case 2 -> this.subpackets.stream().map(Packet::interpret).min(BigInteger::compareTo).orElse(BigInteger.ZERO);
+                case 3 -> this.subpackets.stream().map(Packet::interpret).max(BigInteger::compareTo).orElse(BigInteger.ZERO);
+                case 5 -> this.subpackets.get(0).interpret().compareTo(this.subpackets.get(1).interpret()) > 0 ? BigInteger.ONE : BigInteger.ZERO;
+                case 6 -> this.subpackets.get(0).interpret().compareTo(this.subpackets.get(1).interpret()) < 0 ? BigInteger.ONE : BigInteger.ZERO;
+                case 7 -> this.subpackets.get(0).interpret().compareTo(this.subpackets.get(1).interpret()) == 0 ? BigInteger.ONE : BigInteger.ZERO;
                 case 4 -> this.getValue();
-                default -> BIGINT_0;
+                default -> BigInteger.ZERO;
             };
         }
     }
