@@ -19,7 +19,7 @@ public class Day16 {
         Day16 day16 = new Day16();
         String binaryStr = day16.readInput("src/main/resources/2021/day16/input.txt");
         Packet packet = day16.decodePacket(binaryStr);
-        BigInteger result = packet.interpret();
+        BigInteger result = packet.getValue();
         System.out.printf("Sum of versions for packetTest : %s%n", packet.sumOfVersion());
         System.out.printf("Result : %s%n", result);
     }
