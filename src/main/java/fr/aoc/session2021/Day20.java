@@ -20,10 +20,14 @@ public class Day20 {
     public static void main(String[] args) {
         Day20 day20 = new Day20();
         day20.readInput("src/main/resources/2021/day20/input.txt");
-        ArrayList<ArrayList<String>> photoStep1 = day20.enhance(day20.photo);
-        System.out.printf("Part 1 answer : %s%n", day20.countLitPixel(photoStep1));
-        ArrayList<ArrayList<String>> photoStep2 = day20.enhance(photoStep1);
-        System.out.printf("Part 1 answer : %s%n", day20.countLitPixel(photoStep2));
+
+        for (int nbTour = 1; nbTour <= 50; nbTour++) {
+            day20.photo = day20.enhance(day20.photo, nbTour % 2 == 1 ? "." : "#");
+
+            if (nbTour == 2) System.out.printf("Part 1 answer : %s%n", day20.countLitPixel(day20.photo));
+        }
+
+        System.out.printf("Part 2 answer : %s%n", day20.countLitPixel(day20.photo));
     }
 
     private void readInput(String filePath) {
@@ -50,8 +54,8 @@ public class Day20 {
         }
     }
 
-    private ArrayList<ArrayList<String>> enhance(ArrayList<ArrayList<String>> photo) {
-        padPhoto(photo);
+    private ArrayList<ArrayList<String>> enhance(ArrayList<ArrayList<String>> photo, String paddingChar) {
+        padPhoto(photo, paddingChar);
         ArrayList<ArrayList<String>> enhancedPhoto = new ArrayList<>();
 
         for (int indexLine = 0; indexLine < photo.size(); indexLine++) {
@@ -68,7 +72,7 @@ public class Day20 {
                     try {
                         currentSymbol = photo.get(line).get(col);
                     } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                        currentSymbol = ".";
+                        currentSymbol = paddingChar;
                     }
 
                     if ("#".equals(currentSymbol)) neighborsStr.append(1);
@@ -84,14 +88,14 @@ public class Day20 {
         return enhancedPhoto;
     }
 
-    private void padPhoto(ArrayList<ArrayList<String>> photo) {
+    private void padPhoto(ArrayList<ArrayList<String>> photo, String paddingChar) {
         int length = photo.get(0).size();
-        ArrayList<String> paddingTop = Stream.generate(() -> ".").limit(length + 2L).collect(Collectors.toCollection(ArrayList::new));
-        ArrayList<String> paddingBottom = Stream.generate(() -> ".").limit(length + 2L).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> paddingTop = Stream.generate(() -> paddingChar).limit(length + 2L).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> paddingBottom = Stream.generate(() -> paddingChar).limit(length + 2L).collect(Collectors.toCollection(ArrayList::new));
 
         photo.forEach(line -> {
-            line.add(0, ".");
-            line.add(".");
+            line.add(0, paddingChar);
+            line.add(paddingChar);
         });
         photo.add(0, paddingTop);
         photo.add(paddingBottom);
