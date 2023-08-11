@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,7 +12,11 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day11 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private int flashCounter = 0;
 
@@ -18,12 +24,12 @@ public class Day11 {
         Day11 day11 = new Day11();
         ArrayList<ArrayList<AtomicInteger>> energyMapPart1 = day11.readInput("src/main/resources/2021/day11/input.txt");
         ArrayList<ArrayList<AtomicInteger>> energyMapPart2 = day11.readInput("src/main/resources/2021/day11/input.txt");
-        System.out.printf("original energy map : %n%s%n%n", day11.formattingArrayForLog(energyMapPart1));
+        LOGGER.info("original energy map : \n{}", day11.formattingArrayForLog(energyMapPart1));
 
         for (int step = 0; step < 100; step++) {
             day11.incrementStep(energyMapPart1);
         }
-        System.out.printf("Part 1 answer : %s%n", day11.flashCounter);
+        LOGGER.info("Part 1 answer : {}", day11.flashCounter);
 
         boolean allFlashed = false;
         int stepCounter = 0;
@@ -38,7 +44,7 @@ public class Day11 {
             allFlashed = numberOfFlash == 100;
             stepCounter++;
         }
-        System.out.printf("Part 2 answer : %s%n", stepCounter);
+        LOGGER.info("Part 2 answer : {}", stepCounter);
     }
 
     private ArrayList<ArrayList<AtomicInteger>> readInput(String filePath) {
@@ -46,7 +52,7 @@ public class Day11 {
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String inputStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            inputenergyMap = Arrays.stream(inputStr.split("(\r\n|\r|\n)")).filter(line -> line != null && !line.isEmpty() && !line.trim().isEmpty()).map(line -> Arrays.stream(line.split("")).map(number -> new AtomicInteger(Integer.parseInt(number))).collect(Collectors.toCollection(ArrayList::new))).collect(Collectors.toCollection(ArrayList::new));
+            inputenergyMap = Arrays.stream(inputStr.split(REGEX_NEW_LINE)).filter(line -> line != null && !line.isEmpty() && !line.trim().isEmpty()).map(line -> Arrays.stream(line.split("")).map(number -> new AtomicInteger(Integer.parseInt(number))).collect(Collectors.toCollection(ArrayList::new))).collect(Collectors.toCollection(ArrayList::new));
         } catch (IOException e) {
             e.printStackTrace();
         }

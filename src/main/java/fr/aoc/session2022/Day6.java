@@ -1,6 +1,8 @@
 package fr.aoc.session2022;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.util.Set;
 
 public class Day6 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger();
+
     public static void main(String[] args) {
         Day6 day6 = new Day6();
 
@@ -18,8 +22,8 @@ public class Day6 {
         int answer1 = day6.findFirstMarker(input, 4);
         int answer2 = day6.findFirstMarker(input, 14);
 
-        System.out.printf("Result answer1 : %s%n", answer1);
-        System.out.printf("Result answer2 : %s%n", answer2);
+        LOGGER.info("Result answer1 : {}", answer1);
+        LOGGER.info("Result answer2 : {}", answer2);
     }
 
     private String readInput(String filepath) {

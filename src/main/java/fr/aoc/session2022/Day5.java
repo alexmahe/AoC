@@ -1,6 +1,8 @@
 package fr.aoc.session2022;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,7 +16,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day5 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private List<ArrayList<String>> crates;
 
@@ -22,8 +28,8 @@ public class Day5 {
         Day5 day5 = new Day5();
 
         String input = day5.readInput("src/main/resources/2022/day5/input.txt");
-        String initialStateInput = input.split("(\\r\\n){2}")[0];
-        String[] instructions = input.split("(\\r\\n){2}")[1].split("\\r\\n");
+        String initialStateInput = input.split(REGEX_NEW_LINE + "{2}")[0];
+        String[] instructions = input.split(REGEX_NEW_LINE + "{2}")[1].split(REGEX_NEW_LINE);
 
         day5.setInitialState(initialStateInput);
         day5.processInstructions(instructions, true);
@@ -33,8 +39,8 @@ public class Day5 {
         day5.processInstructions(instructions, false);
         String answer2 = day5.getAnswer();
 
-        System.out.printf("Result answer1 : %s%n", answer1);
-        System.out.printf("Result answer2 : %s%n", answer2);
+        LOGGER.info("Result answer1 : {}", answer1);
+        LOGGER.info("Result answer2 : {}", answer2);
     }
 
     private String getAnswer() {
@@ -50,7 +56,7 @@ public class Day5 {
     }
 
     private void setInitialState(String input) {
-        var cratesInit = Arrays.stream(input.split("\\r\\n")).toList();
+        var cratesInit = Arrays.stream(input.split(REGEX_NEW_LINE)).toList();
         int colNb = Arrays.stream(cratesInit.get(cratesInit.size() - 1).split("\\D")).filter(Predicate.not(String::isBlank)).mapToInt(Integer::parseInt).max().getAsInt();
         crates = Stream.generate(() -> (ArrayList<String>) new ArrayList()).limit(colNb).toList();
         Pattern cratePattern = Pattern.compile("(\\[\\w]|\\s\\s\\s)\\s?");

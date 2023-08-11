@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,7 +17,11 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day5 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private List<List<List<Integer>>> listOfCoordinates;
     private List<List<List<Integer>>> filteredListOfCoordinates;
@@ -34,16 +40,16 @@ public class Day5 {
         day5.fillTopology(day5.listOfCoordinates, day5.topology);
 
         // Partie 1
-        System.out.printf("Overlapping points filtered : %s%n", day5.calcOverlapping(day5.topologyFiltered));
+        LOGGER.info("Overlapping points filtered : {}", day5.calcOverlapping(day5.topologyFiltered));
 
         // Partie 2
-        System.out.printf("Overlapping points : %s%n", day5.calcOverlapping(day5.topology));
+        LOGGER.info("Overlapping points : {}", day5.calcOverlapping(day5.topology));
     }
 
     private void readInput(String filePath) {
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String inputStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            listOfCoordinates = Arrays.stream(inputStr.split("(\\r\\n|\\r|\\n)"))
+            listOfCoordinates = Arrays.stream(inputStr.split(REGEX_NEW_LINE))
                     .map(line -> Arrays.stream(line.split("\\s->\\s"))
                             .map(point -> Arrays.stream(point.split(","))
                                     .map(Integer::parseInt)

@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,13 +16,15 @@ import java.util.stream.Stream;
 
 public class Day6 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger();
+
     public static void main(String[] args) {
         Day6 day6 = new Day6();
         ArrayList<AtomicLong> fishCycles = day6.readInput("src/main/resources/2021/day6/input.txt");
         fishCycles = day6.processNDays(256, fishCycles);
         long fishTotal = fishCycles.stream().map(AtomicLong::get).reduce(0L, Long::sum);
-        System.out.printf("ending fish cycle : %s%n", fishCycles);
-        System.out.printf("Fish total : %s%n", fishTotal);
+        LOGGER.info("ending fish cycle : {}", fishCycles);
+        LOGGER.info("Fish total : {}", fishTotal);
     }
 
     private ArrayList<AtomicLong> readInput(String filePath) {
@@ -37,7 +41,7 @@ public class Day6 {
             for (int indexDays = 0; indexDays < 9; indexDays++) {
                 fishCycles.get(indexDays).set(Collections.frequency(intputArray, indexDays));
             }
-            System.out.printf("starting fish cycle : %s%n", fishCycles);
+            LOGGER.info("starting fish cycle : {}", fishCycles);
         } catch (IOException e) {
             e.printStackTrace();
         }

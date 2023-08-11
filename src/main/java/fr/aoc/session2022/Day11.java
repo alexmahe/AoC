@@ -1,8 +1,10 @@
 package fr.aoc.session2022;
 
+import fr.aoc.common.LoggerFactory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class Day11 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private List<Monkey> monkeys = new ArrayList<>();
     private long gcd = -1;
@@ -46,8 +50,8 @@ public class Day11 {
         var answer2EndTime = System.currentTimeMillis();
 
 
-        System.out.printf("Answer 1 : %s%nTemps écoulé : %s%n", answer1, answer1EndTime - answer1StartTime);
-        System.out.printf("Answer 2 : %s%nTemps écoulé : %s%n", answer2, answer2EndTime - answer2StartTime);
+        LOGGER.info("Answer 1 : {}\nTemps écoulé : {}", answer1, answer1EndTime - answer1StartTime);
+        LOGGER.info("Answer 2 : {}\nTemps écoulé : {}", answer2, answer2EndTime - answer2StartTime);
     }
 
     public List<String> readInput(String filepath) throws IOException {

@@ -1,8 +1,10 @@
 package fr.aoc.session2022;
 
+import fr.aoc.common.LoggerFactory;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,7 +16,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day7 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private final List<File> allFiles = new ArrayList<>(Collections.singletonList(File.builder().isFolder(true).id(0).name("/").files(new ArrayList<>()).idParentFile(-1).build()));
     private int idSeq = 1;
@@ -36,13 +42,13 @@ public class Day7 {
                 .filter(size -> size >= 30000000 - (70000000 - day7.allFiles.get(0).getTotalSize()))
                 .min().getAsInt();
 
-        System.out.printf("Answer 1 : %s%n", answer1);
-        System.out.printf("Answer 1 : %s%n", answer2);
+        LOGGER.info("Answer 1 : {}", answer1);
+        LOGGER.info("Answer 1 : {}", answer2);
     }
 
     private List<String> readInput(String filepath) throws IOException {
         try (FileInputStream fis = new FileInputStream(filepath)) {
-            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split("\\r\\n")).toList();
+            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE)).toList();
         }
     }
 

@@ -1,6 +1,8 @@
 package fr.aoc.session2022;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,7 +13,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day3 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private final String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -22,8 +28,8 @@ public class Day3 {
         int answer1 = day3.processMisplacedItems(input);
         int answer2 = day3.processBadges(input);
 
-        System.out.printf("Score (answer 1) : %s%n", answer1);
-        System.out.printf("Score (answer 2) : %s%n", answer2);
+        LOGGER.info("Score (answer 1) : {}", answer1);
+        LOGGER.info("Score (answer 2) : {}", answer2);
     }
 
     private String readInput(String filepath) throws IOException {
@@ -33,7 +39,7 @@ public class Day3 {
     }
 
     private int processMisplacedItems(String input) {
-        return Arrays.stream(input.split("\\r\\n"))
+        return Arrays.stream(input.split(REGEX_NEW_LINE))
                 .mapToInt(this::calcMisplacedItemValue)
                 .sum();
     }
@@ -46,7 +52,7 @@ public class Day3 {
     }
 
     private int processBadges(String input) {
-        List<String> stringsList = Arrays.stream(input.split("\\r\\n")).toList();
+        List<String> stringsList = Arrays.stream(input.split(REGEX_NEW_LINE)).toList();
         int sum = 0;
 
         for (int listIndex = 0; listIndex < stringsList.size() - 2; listIndex += 3) {

@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,12 +12,16 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day21 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) {
         Day21 day21 = new Day21();
         ArrayList<Integer> playerStartingPositions = day21.readInput("src/main/resources/2021/day21/input.txt");
-        System.out.printf("Answer part 1 : %s%n", day21.playDeterministic(playerStartingPositions));
+        LOGGER.warn("Answer part 1 : {}", day21.playDeterministic(playerStartingPositions));
     }
 
     private ArrayList<Integer> readInput(String filePath) {
@@ -23,7 +29,7 @@ public class Day21 {
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String inputStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            playerStartingPositions = Arrays.stream(inputStr.split("(\r\n|\r|\n)"))
+            playerStartingPositions = Arrays.stream(inputStr.split(REGEX_NEW_LINE))
                     .filter(element -> element != null && !element.isEmpty() && !element.trim().isEmpty())
                     .map(element -> Character.toString(element.charAt(element.length() - 1)))
                     .map(Integer::parseInt)
@@ -53,7 +59,7 @@ public class Day21 {
             }
 
             if (dieRollNumber % 2 == 0) {
-                System.out.printf("Die roll : %s%nPlayer 1 score : %s%nPlayer 1 position : %s%nPlayer 2 score : %s%nPlayer 2 position : %s%n%n%n",
+                LOGGER.trace("Die roll : {}\nPlayer 1 score : {}\nPlayer 1 position : {}\nPlayer 2 score : {}\nPlayer 2 position : {}",
                         dieRollNumber, player1Score, playerPositions.get(0), player2Score, playerPositions.get(1));
             }
 
@@ -61,7 +67,7 @@ public class Day21 {
             dieRollCounter += 3;
 
             if (player1Score >= 1000 || player2Score >= 1000) {
-                System.out.printf("Player 1 score : %s%nPlayer 2 score : %s%nNumber of rolls : %s%n", player1Score, player2Score, dieRollCounter);
+                LOGGER.info("Player 1 score : {}\nPlayer 2 score : {}\nNumber of rolls : {}", player1Score, player2Score, dieRollCounter);
                 return dieRollCounter * Math.min(player1Score, player2Score);
             }
         }

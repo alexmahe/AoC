@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,6 +17,8 @@ import java.util.stream.Stream;
 
 public class Day7 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger();
+
     public static void main(String[] args) {
         Day7 day7 = new Day7();
         List<Integer> positions = day7.readInput("src/main/resources/2021/day7/input.txt");
@@ -26,7 +30,7 @@ public class Day7 {
                     .mapToInt(position -> Math.abs(position - finalIndex))
                     .sum());
         }
-        System.out.printf("Best solution part 1 : %s%n", Collections.min(costList));
+        LOGGER.info("Best solution part 1 : {}", Collections.min(costList));
 
         for (int index = 0; index < costList.size(); index++) {
             int finalIndex = index;
@@ -34,7 +38,7 @@ public class Day7 {
                     .mapToInt(position -> (Math.abs(position - finalIndex) * (Math.abs(position - finalIndex) + 1)) / 2)
                     .sum());
         }
-        System.out.printf("Best solution part 2 : %s%n", Collections.min(costList));
+        LOGGER.info("Best solution part 2 : {}", Collections.min(costList));
     }
 
     private List<Integer> readInput(String filePath) {

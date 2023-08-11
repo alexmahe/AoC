@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,6 +14,8 @@ import java.util.stream.Collectors;
 
 public class Day3 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger();
+
     public static void main(String[] args) {
         // GIVEN
         Day3 day3 = new Day3();
@@ -20,14 +24,14 @@ public class Day3 {
         Map<String, Integer> gAndERates = day3.calcGAndERates(mostCommonBits);
 
         // Partie 1
-        System.out.println(mostCommonBits);
-        System.out.println(gAndERates);
-        System.out.println(gAndERates.get("gammaRate") * gAndERates.get("epsilonRate"));
+        LOGGER.info(mostCommonBits);
+        LOGGER.info(gAndERates.toString());
+        LOGGER.info(String.valueOf(gAndERates.get("gammaRate") * gAndERates.get("epsilonRate")));
 
         // Partie 2
         Map<String, Integer> oAndCO2Rates = day3.filterBitCriteria(diagnostics);
-        System.out.println(oAndCO2Rates);
-        System.out.println(oAndCO2Rates.get("oxygenRate") * oAndCO2Rates.get("co2Rate"));
+        LOGGER.info(oAndCO2Rates.toString());
+        LOGGER.info(String.valueOf(oAndCO2Rates.get("oxygenRate") * oAndCO2Rates.get("co2Rate")));
     }
 
     private List<List<Integer>> readInput(String filePath) {
@@ -95,8 +99,8 @@ public class Day3 {
                             2
         );
 
-        System.out.println(oxygenFilter);
-        System.out.println(co2Filter);
+        LOGGER.info(oxygenFilter.toString());
+        LOGGER.info(co2Filter.toString());
         
         return Map.of("oxygenRate", oxygenRate, "co2Rate", co2Rate);
     }

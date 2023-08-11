@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,7 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day8 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     ArrayList<ArrayList<String>> digitsOutput;
     ArrayList<ArrayList<String>> digitsInput;
@@ -20,7 +26,7 @@ public class Day8 {
     public static void main(String[] args) {
         Day8 day8 = new Day8();
         day8.readInput("src/main/resources/2021/day8/input.txt");
-        System.out.printf("Somme : %s%n", day8.sumOfOutput());
+        LOGGER.info("Somme : {}", day8.sumOfOutput());
     }
 
     private void readInput(String filePath) {
@@ -34,7 +40,7 @@ public class Day8 {
                             .toList())
                     .map(List::size)
                     .reduce(0, Integer::sum);
-            System.out.printf("Nombre de 1, 4, 7 et 8 : %s%n", answerPart1);
+            LOGGER.info("Nombre de 1, 4, 7 et 8 : {}", answerPart1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,7 +130,7 @@ public class Day8 {
     }
 
     private ArrayList<ArrayList<String>> getDigitInputOrOutput(String inputStr, int inputOrOutput) {
-        return Arrays.stream(inputStr.split("(\r\n|\r|\n)"))
+        return Arrays.stream(inputStr.split(REGEX_NEW_LINE))
                 .map(digits -> Arrays.stream(digits.split("\\|")[inputOrOutput].split("\\s"))
                         .filter(element -> element != null && !element.isEmpty() && !element.trim().isEmpty())
                         .collect(Collectors.toCollection(ArrayList::new)))

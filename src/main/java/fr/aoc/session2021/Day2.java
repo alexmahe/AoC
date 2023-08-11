@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,7 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day2 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) {
         // GIVEN
@@ -18,12 +24,12 @@ public class Day2 {
         List<String> directions = day2.readInput("src/main/resources/2021/day2/input.txt");
 
         // Partie 1
-        System.out.println(day2.computeDirections(directions));
+        LOGGER.info(day2.computeDirections(directions).toString());
 
         // Partie 2
         final Map<String, Integer> finalPositions = day2.computeDirectionsPart2(directions);
-        System.out.println(finalPositions);
-        System.out.println(finalPositions.get("horizontal") * finalPositions.get("depth"));
+        LOGGER.info(finalPositions.toString());
+        LOGGER.info(String.valueOf(finalPositions.get("horizontal") * finalPositions.get("depth")));
     }
 
     private List<String> readInput(String filePath) {
@@ -31,7 +37,7 @@ public class Day2 {
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String inputStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            directions = Arrays.stream(inputStr.split("(\\r|\\n|\\r\\n)"))
+            directions = Arrays.stream(inputStr.split(REGEX_NEW_LINE))
                     .filter(element -> element != null && !element.isEmpty() && !element.trim().isEmpty())
                     .toList();
         } catch (IOException e) {

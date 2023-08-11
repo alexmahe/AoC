@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,7 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day12 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private static List<List<String>> connections;
     private ArrayList<ArrayList<String>> validPathsPart1 = new ArrayList<>();
@@ -21,10 +27,10 @@ public class Day12 {
         connections = day12.readInput("src/main/resources/2021/day12/input.txt");
 
         day12.exploreCaves(new ArrayList<>(Arrays.asList("start")), false);
-        System.out.printf("Part 1 answer, number of paths : %s%n", day12.validPathsPart1.size());
+        LOGGER.info("Part 1 answer, number of paths : {}", day12.validPathsPart1.size());
 
         day12.exploreCaves(new ArrayList<>(Arrays.asList("start")), true);
-        System.out.printf("Part 2 answer, number of paths : %s%n", day12.validPathsPart2.size());
+        LOGGER.info("Part 2 answer, number of paths : {}", day12.validPathsPart2.size());
     }
 
     private List<List<String>> readInput(String filePath) {
@@ -32,7 +38,7 @@ public class Day12 {
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String inputStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            inputLines = Arrays.stream(inputStr.split("(\r\n|\r|\n)"))
+            inputLines = Arrays.stream(inputStr.split(REGEX_NEW_LINE))
                     .filter(line -> line != null && !line.isEmpty() && !line.trim().isEmpty())
                     .map(line -> Arrays.stream(line.split("-")).toList())
                     .toList();

@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,7 +13,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day13 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
+
     ArrayList<ArrayList<String>> map;
     List<List<String>> instructions;
 
@@ -26,12 +33,12 @@ public class Day13 {
                         .map(symbol -> 1)
                         .reduce(0, Integer::sum))
                 .reduce(0, Integer::sum);
-        System.out.printf("Answer part 1 : %s%n", answerP1);
+        LOGGER.info("Answer part 1 : {}", answerP1);
 
         for (int index = 1; index < day13.instructions.size(); index++) {
             folded = day13.fold(day13.instructions.get(index), folded);
         }
-        System.out.printf("final fold : %n%s%n", day13.formattingArrayForLog(folded));
+        LOGGER.info("final fold : \n{}", day13.formattingArrayForLog(folded));
     }
 
     private void readInput(String filePath) {
@@ -39,12 +46,12 @@ public class Day13 {
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String inputStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            inputLines = Arrays.stream(inputStr.split("(\r\n|\r|\n)"))
+            inputLines = Arrays.stream(inputStr.split(REGEX_NEW_LINE))
                     .filter(line -> line != null && !line.isEmpty() && !line.trim().isEmpty())
                     .filter(line -> !line.startsWith("fold"))
                     .map(line -> Arrays.stream(line.split(",")).map(Integer::parseInt).toList())
                     .toList();
-            instructions = Arrays.stream(inputStr.split("(\r\n|\r|\n)"))
+            instructions = Arrays.stream(inputStr.split(REGEX_NEW_LINE))
                     .filter(line -> line.startsWith("fold"))
                     .map(line -> Arrays.stream(line.split("=")).toList())
                     .toList();

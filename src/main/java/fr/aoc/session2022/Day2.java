@@ -1,7 +1,9 @@
 package fr.aoc.session2022;
 
+import fr.aoc.common.LoggerFactory;
 import lombok.AllArgsConstructor;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,13 +12,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
 import static fr.aoc.session2022.Day2.Signs.PAPER;
 import static fr.aoc.session2022.Day2.Signs.ROCK;
 import static fr.aoc.session2022.Day2.Signs.SCISSORS;
 
 public class Day2 {
 
-
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private final Map<String, Signs> SIGNS_TO_RESULT = Map.of(
             "A", ROCK, "X", ROCK,
@@ -31,8 +34,8 @@ public class Day2 {
         int answer1 = day2.processInputAnswer1(input);
         int answer2 = day2.processInputAnswer2(input);
 
-        System.out.printf("Score (answer 1) : %s%n", answer1);
-        System.out.printf("Score (answer 2) : %s%n", answer2);
+        LOGGER.info("Score (answer 1) : {}", answer1);
+        LOGGER.info("Score (answer 2) : {}", answer2);
     }
 
     private String readInput(String filepath) throws IOException {
@@ -42,7 +45,7 @@ public class Day2 {
     }
 
     private int processInputAnswer1(String input) throws IOException {
-        return Arrays.stream(input.split("\\r\\n"))
+        return Arrays.stream(input.split(REGEX_NEW_LINE))
                 .mapToInt(round -> {
                     List<Signs> signs = getSignsForRound(round);
                     return 3 * calcScoreMult(signs.get(0), signs.get(1)) + signs.get(1).value;
@@ -51,7 +54,7 @@ public class Day2 {
     }
 
     private int processInputAnswer2(String input) {
-        return Arrays.stream(input.split("\\r\\n"))
+        return Arrays.stream(input.split(REGEX_NEW_LINE))
                 .mapToInt(this::calcScoreForRoundPredict)
                 .sum();
     }

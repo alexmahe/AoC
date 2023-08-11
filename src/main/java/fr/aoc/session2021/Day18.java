@@ -1,9 +1,11 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,7 +15,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day18 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) {
         Day18 day18 = new Day18();
@@ -25,8 +31,8 @@ public class Day18 {
             total = day18.addNumbers(total, numberList.get(numberIndex));
         }
 
-        System.out.printf("Résultat de l'addition : %s%n", total);
-        System.out.printf("Magnitude du résultat : %s%n%n", total.getMagnitude());
+        LOGGER.info("Résultat de l'addition : {}", total);
+        LOGGER.info("Magnitude du résultat : {}", total.getMagnitude());
 
 
         ArrayList<Integer> magnitudeList = new ArrayList<>();
@@ -39,7 +45,7 @@ public class Day18 {
             }
         }
 
-        System.out.printf("Magnitude max : %s%n%n", Collections.max(magnitudeList));
+        LOGGER.info("Magnitude max : {}", Collections.max(magnitudeList));
     }
 
     private List<Number> readInput(String filePath) {
@@ -47,7 +53,7 @@ public class Day18 {
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String numbersStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            numbersList = Arrays.stream(numbersStr.split("(\r\n|\r|\n)"))
+            numbersList = Arrays.stream(numbersStr.split(REGEX_NEW_LINE))
                     .filter(line -> line != null && !line.isEmpty() && !line.trim().isEmpty())
                     .map(this::initNumberFromStr)
                     .toList();

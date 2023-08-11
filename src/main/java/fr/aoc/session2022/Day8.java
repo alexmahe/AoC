@@ -1,6 +1,8 @@
 package fr.aoc.session2022;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,7 +14,11 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day8 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private List<List<Integer>> scenicScore;
 
@@ -23,13 +29,13 @@ public class Day8 {
         int answer1 = day8.processAnswers(forest);
         int answer2 = day8.scenicScore.stream().mapToInt(line -> line.stream().mapToInt(Integer::intValue).max().getAsInt()).max().getAsInt();
 
-        System.out.printf("Answer 1 : %s%n", answer1);
-        System.out.printf("Answer 2 : %s%n", answer2);
+        LOGGER.info("Answer 1 : {}", answer1);
+        LOGGER.info("Answer 2 : {}", answer2);
     }
 
     public List<List<Integer>> readInput(String filepath) throws IOException {
         try (FileInputStream fis = new FileInputStream(filepath)) {
-            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split("\\\r\n"))
+            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE))
                     .map(treeLine -> Arrays.stream(treeLine.split(""))
                             .mapToInt(Integer::parseInt)
                             .boxed()

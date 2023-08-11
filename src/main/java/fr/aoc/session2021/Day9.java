@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,17 +15,19 @@ import java.util.stream.Collectors;
 
 public class Day9 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger();
+
     List<List<Integer>> globalHeightmap;
 
 
     public static void main(String[] args) {
         Day9 day9 = new Day9();
         day9.globalHeightmap = day9.readInput("src/main/resources/2021/day9/input.txt");
-        System.out.printf("Part 1 answer : %s%n", day9.sumOfRisk());
+        LOGGER.info("Part 1 answer : {}", day9.sumOfRisk());
         ArrayList<Integer> bassins = day9.calcSizeOfbassins();
         Collections.sort(bassins, Collections.reverseOrder());
-        System.out.printf("Bassins : %s%n", bassins);
-        System.out.printf("Part 2 answer : %s%n", bassins.get(0) * bassins.get(1) * bassins.get(2));
+        LOGGER.info("Bassins : {}", bassins);
+        LOGGER.info("Part 2 answer : {}", bassins.get(0) * bassins.get(1) * bassins.get(2));
     }
 
     private List<List<Integer>> readInput(String filePath) {

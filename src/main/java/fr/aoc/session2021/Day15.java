@@ -1,8 +1,10 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,8 +21,11 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day15 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger();
     private static final Integer[][] neighbors = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
     private final Map<String, Node> nodeMap = new HashMap<>();
     private Node sourceNode;
@@ -41,8 +46,8 @@ public class Day15 {
         long buildGraphTime = System.currentTimeMillis();
         calculateShortestPathFromSource(sourceNode);
         long dijkstraTime = System.currentTimeMillis();
-        System.out.printf("Part 1 answer : %n%s%n", nodeMap.get(endNodeName).toString());
-        System.out.printf("Time to complete graph %s, dijkstra %s%n%n", buildGraphTime - startTime, dijkstraTime - buildGraphTime);
+        LOGGER.info("Part 1 answer : \n{}", nodeMap.get(endNodeName).toString());
+        LOGGER.info("Time to complete graph {}, dijkstra {}", buildGraphTime - startTime, dijkstraTime - buildGraphTime);
 
         replicateNumber = 5;
         startTime = System.currentTimeMillis();
@@ -50,8 +55,8 @@ public class Day15 {
         buildGraphTime = System.currentTimeMillis();
         calculateShortestPathFromSource(sourceNode);
         dijkstraTime = System.currentTimeMillis();
-        System.out.printf("Part 2 answer : %n%s%n", nodeMap.get(endNodeName).toString());
-        System.out.printf("Time to complete graph %s, dijkstra %s%n%n", buildGraphTime - startTime, dijkstraTime - buildGraphTime);
+        LOGGER.info("Part 2 answer : \n{}", nodeMap.get(endNodeName).toString());
+        LOGGER.info("Time to complete graph {}, dijkstra {}", buildGraphTime - startTime, dijkstraTime - buildGraphTime);
     }
 
     private void buildGraph() {
@@ -89,7 +94,7 @@ public class Day15 {
         ArrayList<ArrayList<Long>> nodesInput = new ArrayList<>();
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
-            String[] inputStrArray = IOUtils.toString(fis, StandardCharsets.UTF_8).split("(\r\n|\r|\n)");
+            String[] inputStrArray = IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE);
             nodesInputOrig = Arrays.stream(inputStrArray)
                     .filter(line -> line != null && !line.isEmpty() && !line.trim().isEmpty())
                     .map(line -> Arrays.stream(line.split("")).map(Long::parseLong).collect(Collectors.toCollection(ArrayList::new)))
@@ -216,7 +221,7 @@ public class Day15 {
 
         @Override
         public String toString() {
-            return String.format("Name %s, distance %s", name, distance);
+            return String.format("Name {}, distance {}", name, distance);
         }
     }
 

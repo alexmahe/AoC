@@ -1,8 +1,10 @@
 package fr.aoc.session2022;
 
+import fr.aoc.common.LoggerFactory;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 
 import javax.management.InstanceNotFoundException;
 import java.io.FileInputStream;
@@ -19,9 +21,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day12 {
 
-    private static final String alphabet = "SabcdefghijklmnopqrstuvwxyzE";
+    private static final Logger LOGGER = LoggerFactory.getLogger();
+
+    private static final String ALPHABET = "SabcdefghijklmnopqrstuvwxyzE";
     private static final Integer[][] neighbors = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
     private static final Graph graph = new Graph();
 
@@ -39,8 +45,8 @@ public class Day12 {
         calcShortestPathFromSource(sourceNode);
         long pathFound = System.currentTimeMillis();
 
-        System.out.printf("Answer 1 : %s%n", endNode);
-        System.out.printf("Time graph : %s%nTime path : %s%n", graphBuilt - start, pathFound - graphBuilt);
+        LOGGER.info("Answer 1 : {}", endNode);
+        LOGGER.info("Time graph : {}\nTime path : {}", graphBuilt - start, pathFound - graphBuilt);
 
         var shortestPaths = new ArrayList<>(Arrays.asList(endNode.getDistance()));
         graph.getNodes().stream()
@@ -53,12 +59,12 @@ public class Day12 {
                     }
                     shortestPaths.add(endNode.getDistance());
                 });
-        System.out.printf("Answer 2 : %s%n", shortestPaths.stream().mapToLong(Long::longValue).min().getAsLong());
+        LOGGER.info("Answer 2 : {}", shortestPaths.stream().mapToLong(Long::longValue).min().getAsLong());
     }
 
     public List<List<String>> readInput(String filepath) throws IOException {
         try (FileInputStream fis = new FileInputStream(filepath)) {
-            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split("\\r\\n"))
+            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE))
                     .map(line -> Arrays.stream(line.split("")).toList())
                     .toList();
         }
@@ -132,7 +138,7 @@ public class Day12 {
     }
 
     public int calcNodeElevationDiff(String elevationCurrentNode, String elevationDestinationNode) {
-        return alphabet.indexOf(elevationDestinationNode) - alphabet.indexOf(elevationCurrentNode);
+        return ALPHABET.indexOf(elevationDestinationNode) - ALPHABET.indexOf(elevationCurrentNode);
     }
 
     public static Node getOrCreateNode(String name, String elevation) {
@@ -182,7 +188,7 @@ public class Day12 {
 
         @Override
         public String toString() {
-            return String.format("Elevation %s, distance %s", elevation, distance);
+            return String.format("Elevation {}, distance {}", elevation, distance);
         }
     }
 }

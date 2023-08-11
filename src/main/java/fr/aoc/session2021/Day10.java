@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,7 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day10 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private static final String OPENING_CHARS = "([{<";
     private static final Map<String, String> MATCHING_CHARS = Map.of("(", ")", "[", "]", "{", "}", "<", ">");
@@ -24,10 +30,10 @@ public class Day10 {
         List<List<String>> lines = day10.readInput("src/main/resources/2021/day10/input.txt");
         day10.buildCharsList(lines);
 
-        System.out.printf("Score illegal : %s%n", day10.calcIllegalScore(day10.illegalChars));
+        LOGGER.info("Score illegal : {}", day10.calcIllegalScore(day10.illegalChars));
 
         ArrayList<ArrayList<String>> completingLists = day10.buildCompletingLists(day10.incompleteLists);
-        System.out.printf("Score incomplete : %s%n", day10.calcIncompleteScore(completingLists));
+        LOGGER.info("Score incomplete : {}", day10.calcIncompleteScore(completingLists));
     }
 
     private List<List<String>> readInput(String filePath) {
@@ -35,7 +41,7 @@ public class Day10 {
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String inputStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            inputLines = Arrays.stream(inputStr.split("(\r\n|\r|\n)"))
+            inputLines = Arrays.stream(inputStr.split(REGEX_NEW_LINE))
                     .filter(line -> line != null && !line.isEmpty() && !line.trim().isEmpty())
                     .map(line -> Arrays.stream(line.split("")).toList())
                     .toList();

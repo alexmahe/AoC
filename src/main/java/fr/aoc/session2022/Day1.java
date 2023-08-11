@@ -1,6 +1,8 @@
 package fr.aoc.session2022;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,13 +16,15 @@ import java.util.OptionalInt;
 
 public class Day1 {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger();
+
     public static void main(String[] args) throws IOException {
         Day1 day1 = new Day1();
         var totalCalPerElves = day1.readProcessInput("src/main/resources/2022/day1/input.txt");
         var top3Sum = totalCalPerElves.stream().limit(3).reduce(0, Integer::sum);
 
-        System.out.printf("Elf with max cal (answer 1) : %s%n", Collections.max(totalCalPerElves));
-        System.out.printf("Top 3 elves with max cal (answer 2) : %s%n", top3Sum);
+        LOGGER.info("Elf with max cal (answer 1) : {}", Collections.max(totalCalPerElves));
+        LOGGER.info("Top 3 elves with max cal (answer 2) : {}", top3Sum);
     }
 
     private List<Integer> readProcessInput(String filepath) throws IOException {

@@ -1,8 +1,10 @@
 package fr.aoc.session2022;
 
+import fr.aoc.common.LoggerFactory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,7 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day9 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private final int squareSize = 1001;
     private List<List<String>> visited;
@@ -30,7 +36,7 @@ public class Day9 {
         long answer1 = day9.visited.stream()
                 .mapToLong(line -> line.stream().filter("#"::equals).count())
                 .sum();
-        System.out.printf("Answer 1 : %s%n", answer1);
+        LOGGER.info("Answer 1 : {}", answer1);
 
         day9.init(10);
         day9.processInput(instructions);
@@ -39,7 +45,7 @@ public class Day9 {
         long answer2 = day9.visited.stream()
                 .mapToLong(line -> line.stream().filter("#"::equals).count())
                 .sum();
-        System.out.printf("Answer 2 : %s%n", answer2);
+        LOGGER.info("Answer 2 : {}", answer2);
     }
 
     public void init(int ropeSize) {
@@ -55,7 +61,7 @@ public class Day9 {
 
     public List<String> readInput(String filepath) throws IOException {
         try (FileInputStream fis = new FileInputStream(filepath)) {
-            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split("\\r\\n")).toList();
+            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE)).toList();
         }
     }
 

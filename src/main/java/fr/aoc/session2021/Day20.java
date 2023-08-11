@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,7 +13,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day20 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private static final Integer[][] neighbors = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 0}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
     private String enhancement;
@@ -24,10 +30,10 @@ public class Day20 {
         for (int nbTour = 1; nbTour <= 50; nbTour++) {
             day20.photo = day20.enhance(day20.photo, nbTour % 2 == 1 ? "." : "#");
 
-            if (nbTour == 2) System.out.printf("Part 1 answer : %s%n", day20.countLitPixel(day20.photo));
+            if (nbTour == 2) LOGGER.info("Part 1 answer : {}", day20.countLitPixel(day20.photo));
         }
 
-        System.out.printf("Part 2 answer : %s%n", day20.countLitPixel(day20.photo));
+        LOGGER.info("Part 2 answer : {}", day20.countLitPixel(day20.photo));
     }
 
     private void readInput(String filePath) {
@@ -37,7 +43,7 @@ public class Day20 {
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String numbersStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
             AtomicBoolean isEnhancement = new AtomicBoolean(true);
-            Arrays.stream(numbersStr.split("(\r\n|\r|\n)")).forEach(line -> {
+            Arrays.stream(numbersStr.split(REGEX_NEW_LINE)).forEach(line -> {
                 if (line == null || line.isEmpty() || line.trim().isEmpty()) {
                     isEnhancement.set(false);
                 } else {

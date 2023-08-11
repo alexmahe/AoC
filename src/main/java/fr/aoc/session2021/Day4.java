@@ -1,6 +1,8 @@
 package fr.aoc.session2021;
 
+import fr.aoc.common.LoggerFactory;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,7 +13,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+
 public class Day4 {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private ArrayList<Integer> drawOrder;
     private final ArrayList<ArrayList<ArrayList<Integer>>> boards = new ArrayList<>();
@@ -34,7 +40,7 @@ public class Day4 {
 
         try (FileInputStream fis = new FileInputStream(filePath)) {
             String inputStr = IOUtils.toString(fis, StandardCharsets.UTF_8);
-            inputStrList = Arrays.stream(inputStr.split("(\\r\\n|\\r|\\n)")).toList();
+            inputStrList = Arrays.stream(inputStr.split(REGEX_NEW_LINE)).toList();
             populateInputVars(inputStrList);
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,14 +96,14 @@ public class Day4 {
 
                 if (!firstVictory) {
                     firstVictory = true;
-                    System.out.printf("[checkVictory] First Victorious board : %n%s%n", formattingBoardForLog(boards.get(boardNumber)));
-                    System.out.printf("[checkVictory] Marked version : %n%s%n", formattingMarkedBoardForLog(markedBoards.get(boardNumber)));
+                    LOGGER.info("[checkVictory] First Victorious board : \n{}", formattingBoardForLog(boards.get(boardNumber)));
+                    LOGGER.info("[checkVictory] Marked version : \n{}", formattingMarkedBoardForLog(markedBoards.get(boardNumber)));
                     postVictoryScoreCalc(boardNumber, drawnNumber);
                 }
 
                 if (victoryCounter == boards.size()) {
-                    System.out.printf("[checkVictory] Last Victorious board : %n%s%n", formattingBoardForLog(boards.get(boardNumber)));
-                    System.out.printf("[checkVictory] Marked version : %n%s%n", formattingMarkedBoardForLog(markedBoards.get(boardNumber)));
+                    LOGGER.info("[checkVictory] Last Victorious board : \n{}", formattingBoardForLog(boards.get(boardNumber)));
+                    LOGGER.info("[checkVictory] Marked version : \n{}", formattingMarkedBoardForLog(markedBoards.get(boardNumber)));
                     postVictoryScoreCalc(boardNumber, drawnNumber);
 
                     return true;
@@ -130,8 +136,8 @@ public class Day4 {
                                             .filter(number -> !markedBoards.get(boardNumber).get(board.indexOf(boardLine)).get(boardLine.indexOf(number)))
                                             .reduce(0, (a, b) -> a + b))
                                     .reduce(0, (a, b) -> a + b);
-        System.out.printf("[postVictoryScoreCalc] Sum of unmarked number : %d%n", sumOfUnmarkedNumbers);
-        System.out.printf("[postVictoryScoreCalc] End score : %d%n", sumOfUnmarkedNumbers * drawnNumber);
+        LOGGER.info("[postVictoryScoreCalc] Sum of unmarked number : %d", sumOfUnmarkedNumbers);
+        LOGGER.info("[postVictoryScoreCalc] End score : %d", sumOfUnmarkedNumbers * drawnNumber);
     }
 
     private String formattingBoardForLog(ArrayList<ArrayList<Integer>> board) {
