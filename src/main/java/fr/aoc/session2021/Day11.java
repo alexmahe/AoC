@@ -1,8 +1,7 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,11 +11,10 @@ import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day11 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private int flashCounter = 0;
 
@@ -24,12 +22,12 @@ public class Day11 {
         Day11 day11 = new Day11();
         ArrayList<ArrayList<AtomicInteger>> energyMapPart1 = day11.readInput("src/main/resources/2021/day11/input.txt");
         ArrayList<ArrayList<AtomicInteger>> energyMapPart2 = day11.readInput("src/main/resources/2021/day11/input.txt");
-        LOGGER.info("original energy map : \n{}", day11.formattingArrayForLog(energyMapPart1));
+        log.info("original energy map : \n{}", day11.formattingArrayForLog(energyMapPart1));
 
         for (int step = 0; step < 100; step++) {
             day11.incrementStep(energyMapPart1);
         }
-        LOGGER.info("Part 1 answer : {}", day11.flashCounter);
+        log.info("Part 1 answer : {}", day11.flashCounter);
 
         boolean allFlashed = false;
         int stepCounter = 0;
@@ -44,7 +42,7 @@ public class Day11 {
             allFlashed = numberOfFlash == 100;
             stepCounter++;
         }
-        LOGGER.info("Part 2 answer : {}", stepCounter);
+        log.info("Part 2 answer : {}", stepCounter);
     }
 
     private ArrayList<ArrayList<AtomicInteger>> readInput(String filePath) {

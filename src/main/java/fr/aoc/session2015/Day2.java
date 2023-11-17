@@ -1,31 +1,30 @@
 package fr.aoc.session2015;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day2 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) throws IOException {
         var gifts = readInput();
-        var wrapperNeeded = Arrays.stream(gifts)
-                .mapToInt(giftDimension -> calcWrapper(giftDimension))
+        var wrapperNeeded = gifts.stream()
+                .mapToInt(Day2::calcWrapper)
                 .sum();
-        var ribbonNeeded = Arrays.stream(gifts)
-                .mapToInt(giftsDimensions -> calcRibbon(giftsDimensions))
+        var ribbonNeeded = gifts.stream()
+                .mapToInt(Day2::calcRibbon)
                 .sum();
 
-        LOGGER.info("Wrapper needed : {}", wrapperNeeded);
-        LOGGER.info("Ribbon needed : {}", ribbonNeeded);
+        log.info("Wrapper needed : {}", wrapperNeeded);
+        log.info("Ribbon needed : {}", ribbonNeeded);
     }
 
     private static int calcWrapper(String giftDimensions) {
@@ -63,9 +62,9 @@ public class Day2 {
                 .toArray();
     }
 
-    private static String[] readInput() throws IOException {
+    private static List<String> readInput() throws IOException {
         try (FileInputStream fis = new FileInputStream("src/main/resources/2015/Day2/input.txt")) {
-            return IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE);
+            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE)).toList();
         }
     }
 }

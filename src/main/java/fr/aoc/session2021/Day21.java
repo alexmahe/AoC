@@ -1,8 +1,7 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,16 +11,15 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day21 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) {
         Day21 day21 = new Day21();
         ArrayList<Integer> playerStartingPositions = day21.readInput("src/main/resources/2021/day21/input.txt");
-        LOGGER.warn("Answer part 1 : {}", day21.playDeterministic(playerStartingPositions));
+        log.warn("Answer part 1 : {}", day21.playDeterministic(playerStartingPositions));
     }
 
     private ArrayList<Integer> readInput(String filePath) {
@@ -59,7 +57,7 @@ public class Day21 {
             }
 
             if (dieRollNumber % 2 == 0) {
-                LOGGER.trace("Die roll : {}\nPlayer 1 score : {}\nPlayer 1 position : {}\nPlayer 2 score : {}\nPlayer 2 position : {}",
+                log.trace("Die roll : {}\nPlayer 1 score : {}\nPlayer 1 position : {}\nPlayer 2 score : {}\nPlayer 2 position : {}",
                         dieRollNumber, player1Score, playerPositions.get(0), player2Score, playerPositions.get(1));
             }
 
@@ -67,7 +65,7 @@ public class Day21 {
             dieRollCounter += 3;
 
             if (player1Score >= 1000 || player2Score >= 1000) {
-                LOGGER.info("Player 1 score : {}\nPlayer 2 score : {}\nNumber of rolls : {}", player1Score, player2Score, dieRollCounter);
+                log.info("Player 1 score : {}\nPlayer 2 score : {}\nNumber of rolls : {}", player1Score, player2Score, dieRollCounter);
                 return dieRollCounter * Math.min(player1Score, player2Score);
             }
         }

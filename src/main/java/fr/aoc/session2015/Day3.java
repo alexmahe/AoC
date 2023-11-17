@@ -1,23 +1,18 @@
 package fr.aoc.session2015;
 
-import fr.aoc.common.LoggerFactory;
+import fr.aoc.common.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
-
+@Slf4j
 public class Day3 {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger();
     private static final Map<Coordonnees, Integer> visitedHousesP1 = new HashMap<Coordonnees, Integer>();
     private static final Map<Coordonnees, Integer> visitedHousesP2 = new HashMap<Coordonnees, Integer>();
 
@@ -26,17 +21,17 @@ public class Day3 {
         visitedHousesP1.put(startingHouse, 1);
         visitedHousesP2.put(startingHouse, 2);
 
-        var deliveryPath = readInput();
+        var deliveryPath = Utils.readInputJoinOnNewLines("src/main/resources/2015/Day3/input.txt");
         deliver(deliveryPath, startingHouse, visitedHousesP1);
 
         var splitPaths = splitDeliveryPath(deliveryPath);
         deliver(splitPaths[0], startingHouse, visitedHousesP2);
         deliver(splitPaths[1], startingHouse, visitedHousesP2);
 
-        LOGGER.info("[Partie 1] Number of houses visited : {}", visitedHousesP1.size());
-        LOGGER.info("[Partie 1] All houses visited : {}", visitedHousesP1);
-        LOGGER.info("[Partie 2] Number of houses visited : {}", visitedHousesP2.size());
-        LOGGER.info("[Partie 2] All houses visited : {}", visitedHousesP2);
+        log.info("[Partie 1] Number of houses visited : {}", visitedHousesP1.size());
+        log.info("[Partie 1] All houses visited : {}", visitedHousesP1);
+        log.info("[Partie 2] Number of houses visited : {}", visitedHousesP2.size());
+        log.info("[Partie 2] All houses visited : {}", visitedHousesP2);
     }
 
     private static void deliver(String deliveryPath, Coordonnees startingHouse, Map<Coordonnees, Integer> visitedHouses) {
@@ -68,13 +63,6 @@ public class Day3 {
 
         return new String[]{santa.toString(), robo.toString()};
     }
-
-    private static String readInput() throws IOException {
-        try (FileInputStream fis = new FileInputStream("src/main/resources/2015/Day3/input.txt")) {
-            return String.join("", IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE));
-        }
-    }
-
 
     @AllArgsConstructor
     private enum Direction {

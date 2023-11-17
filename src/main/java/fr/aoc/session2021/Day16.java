@@ -1,11 +1,10 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,19 +14,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day16 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) {
         Day16 day16 = new Day16();
         String binaryStr = day16.readInput("src/main/resources/2021/day16/input.txt");
         Packet packet = day16.decodePacket(binaryStr);
         BigInteger result = packet.getValue();
-        LOGGER.info("Sum of versions for packetTest : {}", packet.sumOfVersion());
-        LOGGER.info("Result : {}", result);
+        log.info("Sum of versions for packetTest : {}", packet.sumOfVersion());
+        log.info("Result : {}", result);
     }
 
     private static String hexToBin(String hexStr) {

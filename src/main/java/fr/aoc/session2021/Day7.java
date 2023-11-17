@@ -1,8 +1,7 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,13 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class Day7 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) {
         Day7 day7 = new Day7();
@@ -30,7 +27,7 @@ public class Day7 {
                     .mapToInt(position -> Math.abs(position - finalIndex))
                     .sum());
         }
-        LOGGER.info("Best solution part 1 : {}", Collections.min(costList));
+        log.info("Best solution part 1 : {}", Collections.min(costList));
 
         for (int index = 0; index < costList.size(); index++) {
             int finalIndex = index;
@@ -38,7 +35,7 @@ public class Day7 {
                     .mapToInt(position -> (Math.abs(position - finalIndex) * (Math.abs(position - finalIndex) + 1)) / 2)
                     .sum());
         }
-        LOGGER.info("Best solution part 2 : {}", Collections.min(costList));
+        log.info("Best solution part 2 : {}", Collections.min(costList));
     }
 
     private List<Integer> readInput(String filePath) {

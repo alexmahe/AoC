@@ -1,9 +1,8 @@
 package fr.aoc.session2022;
 
-import fr.aoc.common.LoggerFactory;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,14 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 import static fr.aoc.session2022.Day2.Signs.PAPER;
 import static fr.aoc.session2022.Day2.Signs.ROCK;
 import static fr.aoc.session2022.Day2.Signs.SCISSORS;
 
+@Slf4j
 public class Day2 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private final Map<String, Signs> SIGNS_TO_RESULT = Map.of(
             "A", ROCK, "X", ROCK,
@@ -34,8 +32,8 @@ public class Day2 {
         int answer1 = day2.processInputAnswer1(input);
         int answer2 = day2.processInputAnswer2(input);
 
-        LOGGER.info("Score (answer 1) : {}", answer1);
-        LOGGER.info("Score (answer 2) : {}", answer2);
+        log.info("Score (answer 1) : {}", answer1);
+        log.info("Score (answer 2) : {}", answer2);
     }
 
     private String readInput(String filepath) throws IOException {

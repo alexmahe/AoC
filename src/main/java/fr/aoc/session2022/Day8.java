@@ -1,8 +1,7 @@
 package fr.aoc.session2022;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,15 +9,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day8 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private List<List<Integer>> scenicScore;
 
@@ -29,8 +26,8 @@ public class Day8 {
         int answer1 = day8.processAnswers(forest);
         int answer2 = day8.scenicScore.stream().mapToInt(line -> line.stream().mapToInt(Integer::intValue).max().getAsInt()).max().getAsInt();
 
-        LOGGER.info("Answer 1 : {}", answer1);
-        LOGGER.info("Answer 2 : {}", answer2);
+        log.info("Answer 1 : {}", answer1);
+        log.info("Answer 2 : {}", answer2);
     }
 
     public List<List<Integer>> readInput(String filepath) throws IOException {

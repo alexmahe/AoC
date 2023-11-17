@@ -1,10 +1,9 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,9 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 public class Day17 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private List<Integer> xZone;
     private List<Integer> yZone;
@@ -29,11 +27,11 @@ public class Day17 {
         ArrayList<Integer> possibleXStartingSpeed = day17.possibleXStartingSpeed();
 
         int highestY = day17.findHighestPossibleYPos(possibleHighestYStartingSpeed);
-        LOGGER.info("Highest point reached : {}", highestY);
+        log.info("Highest point reached : {}", highestY);
 
         ArrayList<ArrayList<Integer>> allPossibleLaunch = day17.findAllPossibleLaunch(possibleXStartingSpeed, allPossibleYStartingSpeed);
-        LOGGER.info("Number of possible launch : {}", allPossibleLaunch.size());
-        LOGGER.info("Time elapsed : {}", System.currentTimeMillis() - startingTime);
+        log.info("Number of possible launch : {}", allPossibleLaunch.size());
+        log.info("Time elapsed : {}", System.currentTimeMillis() - startingTime);
     }
 
     private void readInput(String filePath) {

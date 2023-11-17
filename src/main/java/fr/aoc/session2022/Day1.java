@@ -1,30 +1,26 @@
 package fr.aoc.session2022;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.OptionalInt;
 
+@Slf4j
 public class Day1 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) throws IOException {
         Day1 day1 = new Day1();
         var totalCalPerElves = day1.readProcessInput("src/main/resources/2022/day1/input.txt");
         var top3Sum = totalCalPerElves.stream().limit(3).reduce(0, Integer::sum);
 
-        LOGGER.info("Elf with max cal (answer 1) : {}", Collections.max(totalCalPerElves));
-        LOGGER.info("Top 3 elves with max cal (answer 2) : {}", top3Sum);
+        log.info("Elf with max cal (answer 1) : {}", Collections.max(totalCalPerElves));
+        log.info("Top 3 elves with max cal (answer 2) : {}", top3Sum);
     }
 
     private List<Integer> readProcessInput(String filepath) throws IOException {

@@ -1,8 +1,7 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,11 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day13 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     ArrayList<ArrayList<String>> map;
     List<List<String>> instructions;
@@ -33,12 +31,12 @@ public class Day13 {
                         .map(symbol -> 1)
                         .reduce(0, Integer::sum))
                 .reduce(0, Integer::sum);
-        LOGGER.info("Answer part 1 : {}", answerP1);
+        log.info("Answer part 1 : {}", answerP1);
 
         for (int index = 1; index < day13.instructions.size(); index++) {
             folded = day13.fold(day13.instructions.get(index), folded);
         }
-        LOGGER.info("final fold : \n{}", day13.formattingArrayForLog(folded));
+        log.info("final fold : \n{}", day13.formattingArrayForLog(folded));
     }
 
     private void readInput(String filePath) {

@@ -1,8 +1,7 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,9 +9,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 public class Day1 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) {
         // GIVEN
@@ -20,10 +18,10 @@ public class Day1 {
         List<Integer> measurements = day1.readInput("src/main/resources/2021/day1/input.txt");
 
         // Partie 1
-        LOGGER.info("Partie 1 : {}", day1.countDepthIncrease(measurements));
+        log.info("Partie 1 : {}", day1.countDepthIncrease(measurements));
 
         // Partie 2
-        LOGGER.info("Partie 2 : {}", day1.countDepthIncreaseWithSlidingWindow(measurements));
+        log.info("Partie 2 : {}", day1.countDepthIncreaseWithSlidingWindow(measurements));
     }
 
     private List<Integer> readInput(String filePath) {

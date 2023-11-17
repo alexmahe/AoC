@@ -1,10 +1,9 @@
 package fr.aoc.session2022;
 
-import fr.aoc.common.LoggerFactory;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 
 import javax.management.InstanceNotFoundException;
 import java.io.FileInputStream;
@@ -21,11 +20,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day12 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private static final String ALPHABET = "SabcdefghijklmnopqrstuvwxyzE";
     private static final Integer[][] neighbors = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
@@ -45,8 +43,8 @@ public class Day12 {
         calcShortestPathFromSource(sourceNode);
         long pathFound = System.currentTimeMillis();
 
-        LOGGER.info("Answer 1 : {}", endNode);
-        LOGGER.info("Time graph : {}\nTime path : {}", graphBuilt - start, pathFound - graphBuilt);
+        log.info("Answer 1 : {}", endNode);
+        log.info("Time graph : {}\nTime path : {}", graphBuilt - start, pathFound - graphBuilt);
 
         var shortestPaths = new ArrayList<>(Arrays.asList(endNode.getDistance()));
         graph.getNodes().stream()
@@ -59,7 +57,7 @@ public class Day12 {
                     }
                     shortestPaths.add(endNode.getDistance());
                 });
-        LOGGER.info("Answer 2 : {}", shortestPaths.stream().mapToLong(Long::longValue).min().getAsLong());
+        log.info("Answer 2 : {}", shortestPaths.stream().mapToLong(Long::longValue).min().getAsLong());
     }
 
     public List<List<String>> readInput(String filepath) throws IOException {

@@ -1,22 +1,19 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day2 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) {
         // GIVEN
@@ -24,12 +21,12 @@ public class Day2 {
         List<String> directions = day2.readInput("src/main/resources/2021/day2/input.txt");
 
         // Partie 1
-        LOGGER.info(day2.computeDirections(directions).toString());
+        log.info(day2.computeDirections(directions).toString());
 
         // Partie 2
         final Map<String, Integer> finalPositions = day2.computeDirectionsPart2(directions);
-        LOGGER.info(finalPositions.toString());
-        LOGGER.info(String.valueOf(finalPositions.get("horizontal") * finalPositions.get("depth")));
+        log.info(finalPositions.toString());
+        log.info(String.valueOf(finalPositions.get("horizontal") * finalPositions.get("depth")));
     }
 
     private List<String> readInput(String filePath) {

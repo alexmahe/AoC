@@ -1,8 +1,7 @@
 package fr.aoc.session2022;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,9 +10,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 public class Day6 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) {
         Day6 day6 = new Day6();
@@ -22,8 +20,8 @@ public class Day6 {
         int answer1 = day6.findFirstMarker(input, 4);
         int answer2 = day6.findFirstMarker(input, 14);
 
-        LOGGER.info("Result answer1 : {}", answer1);
-        LOGGER.info("Result answer2 : {}", answer2);
+        log.info("Result answer1 : {}", answer1);
+        log.info("Result answer2 : {}", answer2);
     }
 
     private String readInput(String filepath) {

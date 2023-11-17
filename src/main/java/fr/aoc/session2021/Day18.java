@@ -1,11 +1,10 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,11 +14,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day18 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) {
         Day18 day18 = new Day18();
@@ -31,8 +29,8 @@ public class Day18 {
             total = day18.addNumbers(total, numberList.get(numberIndex));
         }
 
-        LOGGER.info("Résultat de l'addition : {}", total);
-        LOGGER.info("Magnitude du résultat : {}", total.getMagnitude());
+        log.info("Résultat de l'addition : {}", total);
+        log.info("Magnitude du résultat : {}", total.getMagnitude());
 
 
         ArrayList<Integer> magnitudeList = new ArrayList<>();
@@ -45,7 +43,7 @@ public class Day18 {
             }
         }
 
-        LOGGER.info("Magnitude max : {}", Collections.max(magnitudeList));
+        log.info("Magnitude max : {}", Collections.max(magnitudeList));
     }
 
     private List<Number> readInput(String filePath) {

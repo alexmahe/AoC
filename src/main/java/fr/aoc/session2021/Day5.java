@@ -1,8 +1,7 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,11 +16,10 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day5 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private List<List<List<Integer>>> listOfCoordinates;
     private List<List<List<Integer>>> filteredListOfCoordinates;
@@ -40,10 +38,10 @@ public class Day5 {
         day5.fillTopology(day5.listOfCoordinates, day5.topology);
 
         // Partie 1
-        LOGGER.info("Overlapping points filtered : {}", day5.calcOverlapping(day5.topologyFiltered));
+        log.info("Overlapping points filtered : {}", day5.calcOverlapping(day5.topologyFiltered));
 
         // Partie 2
-        LOGGER.info("Overlapping points : {}", day5.calcOverlapping(day5.topology));
+        log.info("Overlapping points : {}", day5.calcOverlapping(day5.topology));
     }
 
     private void readInput(String filePath) {

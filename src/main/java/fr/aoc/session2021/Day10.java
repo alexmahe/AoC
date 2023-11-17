@@ -1,8 +1,7 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,11 +11,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day10 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private static final String OPENING_CHARS = "([{<";
     private static final Map<String, String> MATCHING_CHARS = Map.of("(", ")", "[", "]", "{", "}", "<", ">");
@@ -30,10 +28,10 @@ public class Day10 {
         List<List<String>> lines = day10.readInput("src/main/resources/2021/day10/input.txt");
         day10.buildCharsList(lines);
 
-        LOGGER.info("Score illegal : {}", day10.calcIllegalScore(day10.illegalChars));
+        log.info("Score illegal : {}", day10.calcIllegalScore(day10.illegalChars));
 
         ArrayList<ArrayList<String>> completingLists = day10.buildCompletingLists(day10.incompleteLists);
-        LOGGER.info("Score incomplete : {}", day10.calcIncompleteScore(completingLists));
+        log.info("Score incomplete : {}", day10.calcIncompleteScore(completingLists));
     }
 
     private List<List<String>> readInput(String filePath) {

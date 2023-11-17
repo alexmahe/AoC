@@ -1,8 +1,7 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,11 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day8 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     ArrayList<ArrayList<String>> digitsOutput;
     ArrayList<ArrayList<String>> digitsInput;
@@ -26,7 +24,7 @@ public class Day8 {
     public static void main(String[] args) {
         Day8 day8 = new Day8();
         day8.readInput("src/main/resources/2021/day8/input.txt");
-        LOGGER.info("Somme : {}", day8.sumOfOutput());
+        log.info("Somme : {}", day8.sumOfOutput());
     }
 
     private void readInput(String filePath) {
@@ -40,7 +38,7 @@ public class Day8 {
                             .toList())
                     .map(List::size)
                     .reduce(0, Integer::sum);
-            LOGGER.info("Nombre de 1, 4, 7 et 8 : {}", answerPart1);
+            log.info("Nombre de 1, 4, 7 et 8 : {}", answerPart1);
         } catch (IOException e) {
             e.printStackTrace();
         }

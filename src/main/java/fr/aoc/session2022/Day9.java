@@ -1,10 +1,10 @@
 package fr.aoc.session2022;
 
-import fr.aoc.common.LoggerFactory;
+import fr.aoc.common.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,11 +15,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day9 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     private final int squareSize = 1001;
     private List<List<String>> visited;
@@ -27,7 +26,7 @@ public class Day9 {
 
     public static void main(String[] args) throws IOException {
         Day9 day9 = new Day9();
-        List<String> instructions = day9.readInput("src/main/resources/2022/day9/input.txt");
+        List<String> instructions = Utils.readInputSplitOnNewLines("src/main/resources/2022/day9/input.txt");
 
         day9.init(2);
         day9.processInput(instructions);
@@ -36,7 +35,7 @@ public class Day9 {
         long answer1 = day9.visited.stream()
                 .mapToLong(line -> line.stream().filter("#"::equals).count())
                 .sum();
-        LOGGER.info("Answer 1 : {}", answer1);
+        log.info("Answer 1 : {}", answer1);
 
         day9.init(10);
         day9.processInput(instructions);
@@ -45,7 +44,7 @@ public class Day9 {
         long answer2 = day9.visited.stream()
                 .mapToLong(line -> line.stream().filter("#"::equals).count())
                 .sum();
-        LOGGER.info("Answer 2 : {}", answer2);
+        log.info("Answer 2 : {}", answer2);
     }
 
     public void init(int ropeSize) {
@@ -57,12 +56,6 @@ public class Day9 {
 
         rope = Stream.generate(() -> new Knot(squareSize / 2, squareSize / 2)).limit(ropeSize).collect(Collectors.toCollection(ArrayList::new));
         visited.get(squareSize / 2).set(squareSize / 2, "#");
-    }
-
-    public List<String> readInput(String filepath) throws IOException {
-        try (FileInputStream fis = new FileInputStream(filepath)) {
-            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE)).toList();
-        }
     }
 
     public void processInput(List<String> instructions) {
@@ -101,7 +94,7 @@ public class Day9 {
 
     @Data
     @AllArgsConstructor
-    class Knot {
+    private static class Knot {
         private int x;
         private int y;
         

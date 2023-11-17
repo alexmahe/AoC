@@ -1,8 +1,7 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,11 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day14 {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger();
 
     Map<String, String> matchingMap = new HashMap<>();
     Map<String, AtomicLong> moleculeMap = new HashMap<>();
@@ -25,7 +23,7 @@ public class Day14 {
     public static void main(String[] args) {
         Day14 day14 = new Day14();
         day14.readInput("src/main/resources/2021/day14/input.txt");
-        LOGGER.info("starting map : \n{}", day14.moleculeMap);
+        log.info("starting map : \n{}", day14.moleculeMap);
         Map<String, AtomicLong> answerMap = new HashMap<>(day14.moleculeMap);
 
         day14.calcNSteps(answerMap, 10, 1);
@@ -43,7 +41,7 @@ public class Day14 {
                         moleculeMap.put(line[0], new AtomicLong(0));
                     });
             startingMolecule = inputStrArray[0].split("");
-            LOGGER.info("Starting molecule : {}", Arrays.stream(startingMolecule).toList());
+            log.info("Starting molecule : {}", Arrays.stream(startingMolecule).toList());
             for (int index = 0; index < startingMolecule.length - 1; index++) {
                 String molecule = startingMolecule[index] + startingMolecule[index + 1];
                 moleculeMap.get(molecule).getAndIncrement();
@@ -63,11 +61,11 @@ public class Day14 {
         }
 
         elementsSummary = countElements(answerMap);
-        LOGGER.info("Total elements : {}", elementsSummary);
+        log.info("Total elements : {}", elementsSummary);
         mostCommon = elementsSummary.values().stream().map(AtomicLong::get).mapToLong(x -> x).max().orElse(0L);
         leastCommon = elementsSummary.values().stream().map(AtomicLong::get).mapToLong(x -> x).min().orElse(0L);
-        LOGGER.info("Most common {} and least common {} quantities", mostCommon, leastCommon);
-        LOGGER.info("Answer part {}, difference = {}", part, mostCommon - leastCommon);
+        log.info("Most common {} and least common {} quantities", mostCommon, leastCommon);
+        log.info("Answer part {}, difference = {}", part, mostCommon - leastCommon);
     }
 
     private Map<String, AtomicLong> executeStep(Map<String, AtomicLong> moleculeMap) {

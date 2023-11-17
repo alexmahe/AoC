@@ -1,10 +1,9 @@
 package fr.aoc.session2021;
 
-import fr.aoc.common.LoggerFactory;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,11 +20,11 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
+import static fr.aoc.common.Utils.REGEX_NEW_LINE;
 
+@Slf4j
 public class Day15 {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger();
     private static final Integer[][] neighbors = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
     private final Map<String, Node> nodeMap = new HashMap<>();
     private Node sourceNode;
@@ -46,8 +45,8 @@ public class Day15 {
         long buildGraphTime = System.currentTimeMillis();
         calculateShortestPathFromSource(sourceNode);
         long dijkstraTime = System.currentTimeMillis();
-        LOGGER.info("Part 1 answer : \n{}", nodeMap.get(endNodeName).toString());
-        LOGGER.info("Time to complete graph {}, dijkstra {}", buildGraphTime - startTime, dijkstraTime - buildGraphTime);
+        log.info("Part 1 answer : \n{}", nodeMap.get(endNodeName).toString());
+        log.info("Time to complete graph {}, dijkstra {}", buildGraphTime - startTime, dijkstraTime - buildGraphTime);
 
         replicateNumber = 5;
         startTime = System.currentTimeMillis();
@@ -55,8 +54,8 @@ public class Day15 {
         buildGraphTime = System.currentTimeMillis();
         calculateShortestPathFromSource(sourceNode);
         dijkstraTime = System.currentTimeMillis();
-        LOGGER.info("Part 2 answer : \n{}", nodeMap.get(endNodeName).toString());
-        LOGGER.info("Time to complete graph {}, dijkstra {}", buildGraphTime - startTime, dijkstraTime - buildGraphTime);
+        log.info("Part 2 answer : \n{}", nodeMap.get(endNodeName).toString());
+        log.info("Time to complete graph {}, dijkstra {}", buildGraphTime - startTime, dijkstraTime - buildGraphTime);
     }
 
     private void buildGraph() {
