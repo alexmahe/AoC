@@ -1,32 +1,26 @@
 package fr.aoc.session2015;
 
-import fr.aoc.common.LoggerFactory;
+import fr.aoc.common.Utils;
 import lombok.AllArgsConstructor;
-import org.apache.commons.io.IOUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static fr.aoc.common.Constant.REGEX_NEW_LINE;
-
+@Slf4j
 public class Day6 {
 
     private final static Set<Light> litLightsP1 = new HashSet<>();
     private final static Set<Light> litLightsP2 = new HashSet<>();
-    private final static Logger LOGGER = LoggerFactory.getLogger();
 
     public static void main(String[] args) throws IOException {
-        var instructions = readInput();
-        Arrays.stream(instructions)
-                .forEach(Day6::processInstruction);
+        var instructions = Utils.readInputSplitOnNewLines("src/main/resources/2015/Day6/input.txt");
+        instructions.forEach(Day6::processInstruction);
 
-        LOGGER.info("Number of lights lit : {}", litLightsP1.size());
+        log.info("Number of lights lit : {}", litLightsP1.size());
     }
 
     private static void processInstruction(String instruction) {
@@ -64,13 +58,8 @@ public class Day6 {
     }
 
     private static Light getLightFromSet(int x, int y) {
-        if (litLightsP2.contains())
-    }
-
-    private static String[] readInput() throws IOException {
-        try (FileInputStream fis = new FileInputStream("src/main/resources/2015/Day6/input.txt")) {
-            return IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE);
-        }
+//        if (litLightsP2.contains())
+        return null;
     }
 
     private record Light(long x, long y, long brightness) {}
