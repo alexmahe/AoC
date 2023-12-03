@@ -12,12 +12,12 @@ import java.util.regex.Pattern;
 public class Day02 {
 
 
-    public static final String RED = "red";
-    public static final int RED_LIMIT = 12;
-    public static final String GREEN = "green";
-    public static final int GREEN_LIMIT = 13;
-    public static final String BLUE = "blue";
-    public static final int BLUE_LIMIT = 14;
+    private static final String RED = "red";
+    private static final int RED_LIMIT = 12;
+    private static final String GREEN = "green";
+    private static final int GREEN_LIMIT = 13;
+    private static final String BLUE = "blue";
+    private static final int BLUE_LIMIT = 14;
 
     public static void main(String[] args) throws IOException {
         var today = new Day02();
@@ -77,10 +77,6 @@ public class Day02 {
                 .max().getAsInt();
     }
 
-    private record Game (
-            List<Integer> reds,
-            List<Integer> greens,
-            List<Integer> blues
-    ) {}
+    private record Game (List<Integer> reds, List<Integer> greens, List<Integer> blues) {}
 
 }
