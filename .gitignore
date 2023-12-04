@@ -15,3 +15,6 @@ EP.log
 *.iml
 overlays/
 atlassian-ide-plugin.xml
+
+# Remove inputs from Git #
+/src/main/resources/**/input*
