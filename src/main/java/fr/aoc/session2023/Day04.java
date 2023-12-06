@@ -14,10 +14,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static fr.aoc.common.Utils.NUMBER_PATTERN;
+
 @Slf4j
 public class Day04 {
-
-    private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
 
     public static void main(String[] args) throws IOException {
         var today = new Day04();

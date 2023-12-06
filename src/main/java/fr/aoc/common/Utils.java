@@ -7,9 +7,13 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Utils {
+
+    public static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
     public static final String REGEX_NEW_LINE = "(\r\n|\r|\n)";
+    public static final String REGEX_EMPTY_LINE = "(\r\n){2}";
 
     public static List<String> readInputSplitOnNewLines(String filepath) throws IOException {
         try (FileInputStream fis = new FileInputStream(filepath)) {
@@ -19,6 +23,12 @@ public class Utils {
     public static String readInputJoinOnNewLines(String filepath) throws IOException {
         try (FileInputStream fis = new FileInputStream(filepath)) {
             return String.join("", IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE));
+        }
+    }
+
+    public static List<String> readInputSplitOnEmptyLines(String filepath) throws IOException {
+        try (FileInputStream fis = new FileInputStream(filepath)) {
+            return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_EMPTY_LINE)).toList();
         }
     }
 

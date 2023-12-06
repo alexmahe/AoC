@@ -11,11 +11,12 @@ import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
+import static fr.aoc.common.Utils.NUMBER_PATTERN;
+
 @Slf4j
 public class Day03 {
 
     private static final Pattern SYMBOL_PATTERN = Pattern.compile("[^\\w\\s\\\\.]");
-    private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
     private static  final Pattern GEAR_PATTERN = Pattern.compile("\\*");
 
     public static void main(String[] args) throws IOException {
