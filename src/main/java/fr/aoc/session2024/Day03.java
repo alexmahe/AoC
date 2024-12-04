@@ -12,8 +12,8 @@ import static fr.aoc.common.Utils.NUMBER_PATTERN;
 @Slf4j
 public class Day03 {
 
-    public static final Pattern MUL_PATTERN = Pattern.compile("mul\\(\\d{1,3},\\d{1,3}\\)");
-    public static final Pattern DOS_N_DONTS = Pattern.compile("(do\\(\\)).*?(don't\\(\\))");
+    private final Pattern MUL_PATTERN = Pattern.compile("mul\\(\\d{1,3},\\d{1,3}\\)");
+    private final Pattern DOS_N_DONTS = Pattern.compile("(do\\(\\)).*?(don't\\(\\))");
 
     public static void main(String[] args) throws IOException {
         var today = new Day03();
@@ -22,7 +22,7 @@ public class Day03 {
         var resultWholeInput = today.getSumOfMulForSection(input);
         log.info("Uncorrupted result for whole input = {}", resultWholeInput);
 
-        var resultWithDosNDonts = DOS_N_DONTS.matcher("do()" + input + "don't()").results()
+        var resultWithDosNDonts = today.DOS_N_DONTS.matcher("do()" + input + "don't()").results()
                 .map(MatchResult::group)
                 .map(today::getSumOfMulForSection)
                 .mapToLong(Long::longValue)
