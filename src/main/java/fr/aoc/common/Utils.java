@@ -13,7 +13,7 @@ public class Utils {
 
     public static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
     public static final String REGEX_NEW_LINE = "(\r\n|\r|\n)";
-    public static final String REGEX_EMPTY_LINE = "(\r\n){2}";
+    public static final String REGEX_EMPTY_LINE = REGEX_NEW_LINE + "{2}";
 
     public static List<String> readInputSplitOnNewLines(String filepath) throws IOException {
         try (FileInputStream fis = new FileInputStream(filepath)) {
