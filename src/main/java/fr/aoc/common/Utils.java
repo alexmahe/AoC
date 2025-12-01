@@ -15,6 +15,8 @@ public class Utils {
     public static final String REGEX_NEW_LINE = "(\r\n|\r|\n)";
     public static final String REGEX_EMPTY_LINE = REGEX_NEW_LINE + "{2}";
 
+    public static final String RESOURCE = "src/main/resources/%s/%s/%s";
+
     public static List<String> readInputSplitOnNewLines(String filepath) throws IOException {
         try (FileInputStream fis = new FileInputStream(filepath)) {
             return Arrays.stream(IOUtils.toString(fis, StandardCharsets.UTF_8).split(REGEX_NEW_LINE)).toList();
